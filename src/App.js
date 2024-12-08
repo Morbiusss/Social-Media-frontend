@@ -5,18 +5,23 @@ import Home from "../src/componenets/Home.js";
 import Profile from "../src/componenets/profile.js";
 import Editprofile from "../src/componenets/EditProfile.js";
 import EditProfile from "../src/componenets/EditProfile.js"
+import { ProfileProvider } from "../src/context/ProfileContext";
+import Gallery from "../src/componenets/Gallary.js";
 
 const App = () => {
   return (
+    <ProfileProvider>
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/edit-profile" element={<Editprofile />} />
+        <Route path="/gallery" element={<Gallery />} />
         
       </Routes>
     </Router>
+    </ProfileProvider>
   );
 };
 
