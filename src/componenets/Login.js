@@ -22,7 +22,7 @@ const Login = () => {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      height="100vh"
+      height="90vh"
       sx={{
         backgroundImage: `url(${BackgroundImage})`,
         backgroundSize: "cover",
@@ -42,7 +42,7 @@ const Login = () => {
           backgroundColor: "white",
           borderTopLeftRadius: "60px",  // Rounded top corners
           borderTopRightRadius: "60px", // Rounded top corners
-          marginTop: "300px", // Pushes the content section to the bottom
+          marginTop: "400px", // Pushes the content section to the bottom
         }}
       >
         {/* Vibesnap logo and title */}

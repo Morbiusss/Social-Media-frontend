@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Box, Avatar, Card, CardContent, CircularProgress, IconButton, Button } from "@mui/material";
+import { Typography, Box, Avatar, Card, CardContent, CircularProgress, Button,TextField,InputAdornment } from "@mui/material";
 import { styled } from "@mui/system";
 import profilepic from "../assets/profilepic.svg";
 import { Favorite } from "@mui/icons-material";
@@ -7,6 +7,30 @@ import sharelogo from "../assets/navigation-2.svg"; // Imported share logo
 import img1 from "../assets/img1.svg";
 import img2 from "../assets/img2.svg";
 import img3 from "../assets/img3.svg";
+import { Dialog, DialogTitle, DialogContent, Grid, IconButton } from "@mui/material";
+
+import CloseIcon from "@mui/icons-material/Close";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import TwitterIcon from '@mui/icons-material/Twitter';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import RedditIcon from '@mui/icons-material/Reddit';
+import { ReactComponent as DiscordIcon } from '../assets/discord.svg';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import MessengerIcon from '@mui/icons-material/Chat';
+
+const logos = [
+  { icon: <TwitterIcon sx={{ color: "#1DA1F2" }} />, label: "Twitter" },
+  { icon: <FacebookIcon sx={{ color: "#1877F2" }} />, label: "Facebook" },
+  { icon: <RedditIcon sx={{ color: "#FF4500" }} />, label: "Reddit" },
+  { icon: <DiscordIcon sx={{ color: "#5865F2" }} />, label: "Discord" },
+  { icon: <WhatsAppIcon sx={{ color: "#25D366" }} />, label: "WhatsApp" },
+  { icon: <MessengerIcon sx={{ color: "#0078FF" }} />, label: "Messenger" },
+  { icon: <TelegramIcon sx={{ color: "#0088CC" }} />, label: "Telegram" },
+  { icon: <InstagramIcon sx={{ color: "#E4405F" }} />, label: "Instagram"}
+]
+
 
 // Helper function to randomly choose one of the two colors
 const generateRandomColor = () => {
@@ -143,6 +167,12 @@ const Home = () => {
     setLikedItems(newLikedItems);
   };
 
+  const [openDialog, setOpenDialog] = useState(false);
+
+const handleDialogOpen = () => setOpenDialog(true);
+const handleDialogClose = () => setOpenDialog(false);
+
+
   return (
     <Box
       display="flex"
@@ -236,23 +266,28 @@ const Home = () => {
               </Box>
 
               <Button
-                sx={{
-                  backgroundColor: "rgba(0, 0, 0, 0.07)",
-                  borderRadius: "16px",
-                  padding: "8px 16px",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                  color: "gray",
-                  display: "flex",
-                  alignItems: "center",
-                  boxShadow: "none",
-                   marginRight: "10px",
-                }}
-                onClick={() => console.log("Share clicked")}
-              >
-                <img src={sharelogo} alt="Share" style={{ width: "16px", height: "16px", marginRight: "8px", }} />
-                Share
-              </Button>
+  sx={{
+    backgroundColor: "rgba(0, 0, 0, 0.07)",
+    borderRadius: "16px",
+    padding: "8px 16px",
+    fontWeight: "600",
+    fontSize: "14px",
+    color: "gray",
+    display: "flex",
+    alignItems: "center",
+    boxShadow: "none",
+    marginRight: "10px",
+  }}
+  onClick={handleDialogOpen}
+>
+  <img
+    src={sharelogo}
+    alt="Share"
+    style={{ width: "16px", height: "16px", marginRight: "8px" }}
+  />
+  Share
+</Button>
+
             </ButtonContainer>
           </FeedCard>
         ))}
@@ -262,7 +297,108 @@ const Home = () => {
           </Loader>
         )}
       </FeedContainer>
+      <Dialog
+  open={openDialog}
+  onClose={handleDialogClose}
+  maxWidth="sm"
+  fullWidth
+  PaperProps={{
+    sx: {
+      borderRadius: "12px", // Add border radius to the dialog box using PaperProps
+    },
+  }}
+>
+  <DialogTitle
+    sx={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "16px",
+    }}
+  >
+    <Typography variant="h6" sx={{ fontWeight: "1000" }}>
+      Share Post
+    </Typography>
+    <IconButton
+      onClick={handleDialogClose}
+      sx={{
+        backgroundColor: "rgba(200, 200, 200, 1)", // Grey background
+        borderRadius: "50%", // Round shape
+        width: "22px", // Set width smaller than the cross icon
+        height: "22px", // Set height smaller than the cross icon
+        padding: "4px", // Adjust padding to fit the icon properly
+      }}
+    >
+      <CloseIcon sx={{ width: "18px", height: "18px" }} /> {/* Adjust the icon size */}
+    </IconButton>
+  </DialogTitle>
+  <DialogContent sx={{ padding: "25px" }}>
+    <Grid container spacing={2}>
+      {logos.map((logo, index) => (
+        <Grid item xs={3} key={index} sx={{ textAlign: "center" }}>
+          <Avatar
+            sx={{
+              width: "50px",
+              height: "50px",
+              backgroundColor: "rgba(233, 246, 251, 1)", // Light color background
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {logo.icon}
+          </Avatar>
+          <Typography variant="body2" sx={{ marginTop: "8px", marginLeft: "-25px" }}>
+            {logo.label}
+          </Typography>
+        </Grid>
+      ))}
+    </Grid>
+    <Typography
+      variant="subtitle1"
+      sx={{ fontWeight: "600", marginTop: "16px" }}
+    >
+      Page Link
+    </Typography>
+    <TextField
+      fullWidth
+      variant="outlined"
+      value="https://example.com/page"
+      InputProps={{
+        readOnly: true,
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton
+              onClick={() =>
+                navigator.clipboard.writeText("https://example.com/page")
+              }
+            >
+              <ContentCopyIcon />
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+      sx={{
+        marginTop: "8px",
+        backgroundColor: "rgba(217, 217, 217, 1)",
+        borderRadius: "12px",
+        "& .MuiOutlinedInput-root": {
+          borderRadius: "12px",
+        },
+        "& .MuiOutlinedInput-notchedOutline": {
+          border: "none",
+        },
+      }}
+    />
+  </DialogContent>
+</Dialog>;
+
+
+
+
+
     </Box>
+    
   );
 };
 
