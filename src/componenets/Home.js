@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Typography, Box, Avatar, Card, CardContent, CircularProgress, Button,TextField,InputAdornment } from "@mui/material";
 import { styled } from "@mui/system";
 import profilepic from "../assets/profilepic.svg";
-import { Favorite } from "@mui/icons-material";
+import { Favorite,Add } from "@mui/icons-material";
 import sharelogo from "../assets/navigation-2.svg"; // Imported share logo
 import img1 from "../assets/img1.svg";
 import img2 from "../assets/img2.svg";
@@ -19,7 +19,8 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import MessengerIcon from '@mui/icons-material/Chat';
-
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import cover from "../assets/cover.svg"; 
 const logos = [
   { icon: <TwitterIcon sx={{ color: "#1DA1F2" }} />, label: "Twitter" },
   { icon: <FacebookIcon sx={{ color: "#1877F2" }} />, label: "Facebook" },
@@ -123,6 +124,7 @@ const formatRelativeTime = (timestamp) => {
 const Home = () => {
   const [feedData, setFeedData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   const staticData = [
     { name: "User 1", timestamp: new Date(Date.now() - 1000 * 60 * 60).toISOString(), content: "Taking a moment to slow down, breathe, and focus on myself. 🌿✨ Self-care isn’t selfish – it’s necessary. 💕 #SelfCare #MeTime #Wellness", image: img1 },
@@ -168,9 +170,16 @@ const Home = () => {
   };
 
   const [openDialog, setOpenDialog] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null); // Track the selected image
 
 const handleDialogOpen = () => setOpenDialog(true);
 const handleDialogClose = () => setOpenDialog(false);
+const handleAvatarClick = () => {
+  navigate("/profile"); // Navigate to /profile when avatar is clicked
+};
+const handleOpenGallery = () => {
+  navigate("/gallery", { state: { selectedImage } });  // Pass the selected image to the gallery page
+};
 
 
   return (
@@ -183,12 +192,31 @@ const handleDialogClose = () => setOpenDialog(false);
       padding="16px"
       position="relative"
     >
+      <Box sx={{ width: "110%", height: "200px", backgroundSize: "cover", backgroundPosition: "center", position: "relative", marginTop: '-15px' }}>
+             
+              <IconButton 
+                sx={{
+                  position: "fixed",
+                  top: "85%",
+                  right: "5%",
+                  backgroundColor: "black",
+                  borderRadius: "50%",
+                  padding: 1,
+                  zIndex: 10,
+                  "&:hover": { backgroundColor: "#333" }
+                }}
+                onClick={handleOpenGallery}  // Trigger gallery page open
+              >
+                <Add sx={{ color: "white", fontSize: 30 }} />
+              </IconButton>
+            </Box>
       {/* Profile Section */}
       <ProfileSection>
-        <Avatar
+      <Avatar
           alt="User"
           src={profilepic} // Replace with the path to the user's profile image
           sx={{ width: 50, height: 50 }}
+          onClick={handleAvatarClick} // Add onClick event to the avatar
         />
         <ProfileText>
           <Typography

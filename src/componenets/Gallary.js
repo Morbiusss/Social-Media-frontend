@@ -6,6 +6,7 @@ import Hicash from "../assets/HiCash.svg";
 import img1 from "../assets/img1.svg";  // Import img1
 import img2 from "../assets/img2.svg";  // Import img2
 import img3 from "../assets/img3.svg";  // Import img3
+import Header from "./Header.js"; 
 
 const Gallery = () => {
   const location = useLocation();  // Get passed state from Profile component
@@ -45,6 +46,8 @@ const Gallery = () => {
     <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "#f5f5f5" }}>
       {/* Display the selected image at the top */}
       {/* Display the selected image at the top */}
+      <Header pageName="Gallery" selectedImage={topImage} />
+
       <Box sx={{ width: "100%", height: "50%", marginBottom: 0 }}>
         <Card sx={{ height: "100%", borderRadius: "0" }}> {/* Removed border-radius here */}
           <CardMedia component="img" height="100%" image={topImage} alt="Selected Image" sx={{ objectFit: "cover", borderRadius: "0" }} /> {/* Removed border-radius here */}
@@ -98,7 +101,14 @@ const Gallery = () => {
       <Box sx={{ width: "100%", display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
         {galleryImages.map((img, index) => (
           <Card key={index} sx={{ width: "32%", marginBottom: 2, position: "relative" }} onClick={() => handleImageClick(img)}>
-            <CardMedia component="img" height="100%" image={img} alt={`Gallery image ${index + 1}`} sx={{ objectFit: "cover", height: "200px", borderRadius: "none" }} />
+            <CardMedia 
+            component="img" 
+            height="100%" 
+            image={img} 
+            alt={`Gallery image ${index + 1}`}
+
+            sx={{ objectFit: "cover", height: "200px", borderRadius: "none" }} 
+            />
           </Card>
         ))}
       </Box>
